@@ -29,6 +29,8 @@ public class notebook_shop
 {
     public static void main(String[] args) 
     {
+        Scanner s = new Scanner(System.in);
+
         LinkedHashSet<notebook> nots = new LinkedHashSet<>();
         notebook not1 = new notebook();
         not1.prodName = "Asus";
@@ -80,10 +82,43 @@ public class notebook_shop
         nots.add(not5);
         nots.add(not6);
 
-        // System.out.println(nots);
-        // printSet(nots);
-        printSet(choice(nots));
-        // choice(nots);
+        LinkedHashSet<notebook> res = new LinkedHashSet<>();
+
+        System.out.println("Добро пожаловать в наш магазин!");
+        System.out.println("Если вы хотите выбрать ноутбук по параметрам нажмите 1, показать весь ассортимент - 2, выход - 0");
+        int c = s.nextInt();
+
+        if (c == 1) {
+            res = choice(nots);
+            while (c != 0) {
+                if (res.size() == 0) {
+                    System.out.println("Вы ничего не выбрали. Хотите продолжить поиск? 1 - да, 0 - нет");
+                    c = s.nextInt();
+                    if (c == 1) {
+                        res = choice(nots);
+                    }
+                    else {
+                        System.out.println("Всего хорошего!");
+                    }
+                }
+                else {
+                    System.out.println("Хотите продолжить поиск? 1 - да, 0 - нет");
+                    c = s.nextInt();
+                    if (c == 1) {
+                        res = choice(res);
+                    }
+                    else {
+                        printSet(res);
+                    }
+                }
+            }
+        }
+        else if (c == 2) {
+            printSet(nots);
+        }
+        else {
+            System.out.println("Всего хорошего!");
+        }  
     }
 
     static void printSet(LinkedHashSet<notebook> nots) 
@@ -99,7 +134,7 @@ public class notebook_shop
     {
         LinkedHashSet<notebook> res = new LinkedHashSet<>();
 
-        String[] menu = { "Введите номер признака для сортировки:  ", "1 - ОЗУ", "2 - Объем ЖД", "3 - Операционная система", "4 - Цвет", "Или 0 для вывода доступных ноутбуков"};
+        String[] menu = { "Введите номер признака для сортировки:  ", "1 - ОЗУ", "2 - Объем ЖД", "3 - Операционная система", "4 - Цвет"};
         for (int i = 0; i < menu.length; i++) 
         {
             System.out.println(menu[i]);
@@ -188,13 +223,13 @@ public class notebook_shop
                 }
             }
         }
-        // else if (c == 0) {
-        //     printSet(res);
-        // }    
-        
+
         else {
-            System.out.println("Некорректный ввод");
+            System.out.println("Некорректный ввод. Измените параметры поиска");
         }
+        printSet(res);
+        
+        System.out.println();
         return res;
     }
 }        
